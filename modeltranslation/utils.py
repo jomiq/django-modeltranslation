@@ -51,8 +51,9 @@ def build_localized_fieldname(field_name, lang):
         lang = "ind"
     return str("%s_%s" % (field_name, lang.replace("-", "_")))
 
-
 def _build_localized_verbose_name(verbose_name, lang):
+    if settings.DO_NOT_ALTER_VERBOSE_NAMES:
+        return force_str(verbose_name)
     info = get_language_info(lang)
     name_local = info.get("name_local", lang)
     if lang == 'id':
