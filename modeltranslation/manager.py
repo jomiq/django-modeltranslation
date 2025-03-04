@@ -574,13 +574,15 @@ class FallbackFlatValuesListIterable(FallbackValuesListIterable):
 @overload
 def multilingual_queryset_factory(
     old_cls: type[Any], instantiate: Literal[False]
-) -> type[MultilingualQuerySet]: ...
+) -> type[MultilingualQuerySet]:
+    ...
 
 
 @overload
 def multilingual_queryset_factory(
     old_cls: type[Any], instantiate: Literal[True] = ...
-) -> MultilingualQuerySet: ...
+) -> MultilingualQuerySet:
+    ...
 
 
 def multilingual_queryset_factory(
