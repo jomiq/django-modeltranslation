@@ -2,7 +2,7 @@ release:
 	standard-version
 
 publish: clean
-	python setup.py sdist bdist_wheel
+	python -m build
 	twine upload dist/*
 	git push --follow-tags
 
@@ -12,3 +12,6 @@ clean:
 lint:
 	ruff check modeltranslation
 	ruff format --check modeltranslation *.py
+
+typecheck:
+	mypy --pretty modeltranslation

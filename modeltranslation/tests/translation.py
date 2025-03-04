@@ -24,6 +24,11 @@ class UniqueNullableTranslationOptions(TranslationOptions):
     fields = ("title",)
 
 
+@register(models.ModelWithConstraint)
+class ModelWithConstrainTranslationOptions(TranslationOptions):
+    fields = ("sub_title",)
+
+
 # ######### Proxy model testing
 
 
@@ -241,13 +246,13 @@ class FieldInheritanceCTranslationOptions(FieldInheritanceBTranslationOptions):
 
 
 class FieldInheritanceDTranslationOptions(FieldInheritanceBTranslationOptions):
-    fields = ("titled",)
+    fields = ["titled"]
 
 
 class FieldInheritanceETranslationOptions(
     FieldInheritanceCTranslationOptions, FieldInheritanceDTranslationOptions
 ):
-    fields = ("titlee",)
+    fields = ["titlee"]
 
 
 # ######### Integration testing
@@ -282,6 +287,9 @@ class RequiredTranslationOptions(TranslationOptions):
     fields = ("non_req", "req", "req_reg", "req_en_reg")
     required_languages = {
         "en": (
+            # We include `non_req` field here, to test that it's `blank` attribute is preserved,
+            # even when languages is required.
+            "non_req",
             "req_reg",
             "req_en_reg",
         ),
