@@ -52,11 +52,11 @@ def build_refresh_from_db(
 
 if _django_version <= (5, 0):
 
-    def is_hidden(field: ForeignObjectRel) -> bool:
+    def is_hidden(field: ForeignObjectRel) -> bool: # noqa: F811
         return field.is_hidden()
 
     # Django versions below 5.1 do not have `from_queryset` argument.
-    def build_refresh_from_db(  # type: ignore[misc]
+    def build_refresh_from_db(  # type: ignore[misc] # noqa: F811
         old_refresh_from_db: Callable[[Any, Optional[str], Optional[Iterable[str]]], None],
     ):
         from modeltranslation.manager import append_translated
