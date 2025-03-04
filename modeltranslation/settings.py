@@ -86,3 +86,5 @@ JQUERY_UI_URL: str = getattr(
     "JQUERY_UI_URL",
     "//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js",
 )
+
+DO_NOT_ALTER_VERBOSE_NAMES = getattr(settings, "MODELTRANSLATION_DO_NOT_ALTER_VERBOSE_NAMES", False)
