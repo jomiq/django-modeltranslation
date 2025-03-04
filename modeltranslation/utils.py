@@ -1,5 +1,9 @@
-from contextlib import contextmanager
+from __future__ import annotations
 
+from itertools import chain
+from contextlib import contextmanager
+from typing import Any, TypeVar
+from collections.abc import Generator, Iterable, Iterator
 from django.db import models
 from django.utils.encoding import force_str
 from django.utils.functional import lazy
@@ -13,8 +17,12 @@ from modeltranslation.thread_context import (
     set_enable_fallbacks,
 )
 
+from ._typing import AutoPopulate
 
-def get_language():
+_T = TypeVar("_T")
+
+
+def get_language() -> str:
     """
     Return an active language code that is guaranteed to be in
     settings.LANGUAGES (Django does not seem to guarantee this for us).
@@ -29,7 +37,7 @@ def get_language():
     return settings.DEFAULT_LANGUAGE
 
 
-def get_language_bidi(lang):
+def get_language_bidi(lang: str) -> bool:
     """
     Check if a language is bi-directional.
     """
@@ -37,40 +45,50 @@ def get_language_bidi(lang):
     return lang_info["bidi"]
 
 
-def get_translation_fields(field):
+def get_translation_fields(*fields: str) -> list[str]:
     """
-    Returns a list of localized fieldnames for a given field.
+    Returns a list of localized fieldnames for a given fields.
     """
-    return [build_localized_fieldname(field, lang) for lang in settings.AVAILABLE_LANGUAGES]
+    return list(
+        chain.from_iterable(
+            [build_localized_fieldname(field, lang) for lang in settings.AVAILABLE_LANGUAGES]
+            for field in fields
+        )
+    )
 
 
-def build_localized_fieldname(field_name, lang):
+def build_lang(lang: str) -> str:
     if lang == "id":
         # The 2-letter Indonesian language code is problematic with the
         # current naming scheme as Django foreign keys also add "id" suffix.
         lang = "ind"
-    return str("%s_%s" % (field_name, lang.replace("-", "_")))
+    return lang.replace("-", "_")
+
+
+def build_localized_fieldname(field_name: str, lang: str) -> str:
+    return str("%s_%s" % (field_name, build_lang(lang)))
+
 
 def _build_localized_verbose_name(verbose_name, lang):
     if settings.DO_NOT_ALTER_VERBOSE_NAMES:
         return force_str(verbose_name)
     info = get_language_info(lang)
     name_local = info.get("name_local", lang)
-    if lang == 'id':
-        lang = 'ind'
-    return force_str('%s [%s]') % (force_str(verbose_name), name_local)
+    if lang == "id":
+        lang = "ind"
+    return force_str("%s [%s]") % (force_str(verbose_name), name_local)
 
 
 build_localized_verbose_name = lazy(_build_localized_verbose_name, str)
 
 
-def _join_css_class(bits, offset):
-    if "-".join(bits[-offset:]) in settings.AVAILABLE_LANGUAGES + ["en-us"]:
+def _join_css_class(bits: list[str], offset: int) -> str:
+    if "-".join(bits[-offset:]) in settings.AVAILABLE_LANGUAGES + ["en-us", "ind"]:
         return "%s-%s" % ("_".join(bits[: len(bits) - offset]), "_".join(bits[-offset:]))
     return ""
 
 
-def build_css_class(localized_fieldname, prefix=""):
+def build_css_class(localized_fieldname: str, prefix: str = ""):
     """
     Returns a css class based on ``localized_fieldname`` which is easily
     splittable and capable of regionalized language codes.
@@ -102,7 +120,7 @@ def build_css_class(localized_fieldname, prefix=""):
     return "%s-%s" % (prefix, css_class) if prefix else css_class
 
 
-def unique(seq):
+def unique(seq: Iterable[_T]) -> Generator[_T, None, None]:
     """
     Returns a generator yielding unique sequence members in order
 
@@ -112,10 +130,12 @@ def unique(seq):
     [1, 2, 3, 4]
     """
     seen = set()
-    return (x for x in seq if x not in seen and not seen.add(x))
+    return (x for x in seq if x not in seen and not seen.add(x))  # type: ignore[func-returns-value]
 
 
-def resolution_order(lang, override=None):
+def resolution_order(
+    lang: str, override: dict[str, tuple[str, ...]] | None = None
+) -> tuple[str, ...]:
     """
     Return order of languages which should be checked for parameter language.
     First is always the parameter language, later are fallback languages.
@@ -133,7 +153,7 @@ def resolution_order(lang, override=None):
 
 
 @contextmanager
-def auto_populate(mode="all"):
+def auto_populate(mode: AutoPopulate = "all") -> Iterator[None]:
     """
     Overrides translation fields population mode (population mode decides which
     unprovided translations will be filled during model construction / loading).
@@ -159,7 +179,7 @@ def auto_populate(mode="all"):
 
 
 @contextmanager
-def fallbacks(enable=True):
+def fallbacks(enable: bool | None = True) -> Iterator[None]:
     """
     Temporarily switch all language fallbacks on or off.
 
@@ -179,7 +199,7 @@ def fallbacks(enable=True):
         set_enable_fallbacks(None)
 
 
-def parse_field(setting, field_name, default):
+def parse_field(setting: Any | dict[str, Any], field_name: str, default: Any) -> Any:
     """
     Extract result from single-value or dict-type setting like fallback_values.
     """
@@ -189,7 +209,9 @@ def parse_field(setting, field_name, default):
         return setting
 
 
-def build_localized_intermediary_model(intermediary_model: models.Model, lang: str) -> models.Model:
+def build_localized_intermediary_model(
+    intermediary_model: type[models.Model], lang: str
+) -> type[models.Model]:
     from modeltranslation.translator import translator
 
     meta = type(
@@ -215,7 +237,7 @@ def build_localized_intermediary_model(intermediary_model: models.Model, lang: s
         (models.Model,),
         {
             **{k: v for k, v in dict(intermediary_model.__dict__).items() if k != "_meta"},
-            **{f.name: f.clone() for f in intermediary_model._meta.fields},
+            **{f.name: f.clone() for f in intermediary_model._meta.fields},  # type: ignore[attr-defined]
             "Meta": meta,
         },
     )

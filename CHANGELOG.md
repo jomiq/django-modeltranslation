@@ -2,6 +2,115 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.19.12](https://github.com/deschler/django-modeltranslation/compare/v0.19.11...v0.19.12) (2024-12-26)
+
+
+### Bug Fixes
+
+* Preserve `blank` value for optional fields ([f197adc](https://github.com/deschler/django-modeltranslation/commit/f197adc6674131dcc23aea0d0d4a8704d8e4cb7c))
+
+### [0.19.11](https://github.com/deschler/django-modeltranslation/compare/v0.19.10...v0.19.11) (2024-11-11)
+
+
+### Features
+
+* Support django 5.1 ([#756](https://github.com/deschler/django-modeltranslation/issues/756)) ([7a60ca1](https://github.com/deschler/django-modeltranslation/commit/7a60ca10955a452448f0a34981713c6c632ca1db)), closes [#719](https://github.com/deschler/django-modeltranslation/issues/719)
+
+### [0.19.10](https://github.com/deschler/django-modeltranslation/compare/v0.19.9...v0.19.10) (2024-10-17)
+
+
+### Bug Fixes
+
+* Fix indonesian language support ([a1106d1](https://github.com/deschler/django-modeltranslation/commit/a1106d1fe1a4484fd352e4b17ddebad55c3ecbcc)), closes [#763](https://github.com/deschler/django-modeltranslation/issues/763)
+
+### [0.19.9](https://github.com/deschler/django-modeltranslation/compare/v0.19.8...v0.19.9) (2024-09-05)
+
+### [0.19.8](https://github.com/deschler/django-modeltranslation/compare/v0.19.7...v0.19.8) (2024-09-04)
+
+
+### Bug Fixes
+
+* Fix django-cms compatibility ([d420b6a](https://github.com/deschler/django-modeltranslation/commit/d420b6a9db87e133a34d0462af4c699b6debed96)), closes [#748](https://github.com/deschler/django-modeltranslation/issues/748)
+* Fix type error for Python 3.8 ([#754](https://github.com/deschler/django-modeltranslation/issues/754)) ([5cc37c2](https://github.com/deschler/django-modeltranslation/commit/5cc37c256f377f918e3f4b788b900a700a5f22db)), closes [#753](https://github.com/deschler/django-modeltranslation/issues/753)
+
+### [0.19.7](https://github.com/deschler/django-modeltranslation/compare/v0.19.6...v0.19.7) (2024-08-12)
+
+
+### Features
+
+* add changelog to project urls in package metadata ([#752](https://github.com/deschler/django-modeltranslation/issues/752)) ([303c947](https://github.com/deschler/django-modeltranslation/commit/303c947930a3348bf4037617677dc89fb157e1e2))
+
+### [0.19.6](https://github.com/deschler/django-modeltranslation/compare/v0.19.5...v0.19.6) (2024-08-07)
+
+
+### Bug Fixes
+
+* Support multiple translation fields in `get_translation_fields` ([56c5784](https://github.com/deschler/django-modeltranslation/commit/56c578400fd6bd29bd8b088bc3e5ba9f6b4fa9a4))
+
+### [0.19.5](https://github.com/deschler/django-modeltranslation/compare/v0.19.4...v0.19.5) (2024-07-05)
+
+
+### Bug Fixes
+
+* **types:** Use Union instead of | for some types ([13af637](https://github.com/deschler/django-modeltranslation/commit/13af637d87dc9eca2775b46bf2b04da7e741c805)), closes [#744](https://github.com/deschler/django-modeltranslation/issues/744)
+
+### [0.19.4](https://github.com/deschler/django-modeltranslation/compare/v0.19.3...v0.19.4) (2024-06-20)
+
+
+### Features
+
+* Add global `MODELTRANSLATION_REQUIRED_LANGUAGES` setting ([0bbdb5f](https://github.com/deschler/django-modeltranslation/commit/0bbdb5fe8fa053de2bc54d31b668b3621a9dda78)), closes [#743](https://github.com/deschler/django-modeltranslation/issues/743)
+
+### [0.19.3](https://github.com/deschler/django-modeltranslation/compare/v0.19.2...v0.19.3) (2024-06-01)
+
+
+### Bug Fixes
+
+* **types:** Make admin classes generic as their super classes ([#737](https://github.com/deschler/django-modeltranslation/issues/737)) ([d2c16fe](https://github.com/deschler/django-modeltranslation/commit/d2c16feba9d9f00f16f9406e2a466cd0cc832433))
+
+### Breaking changes
+
+* Dropped support for python 3.8 and removed it from CI
+
+### [0.19.2](https://github.com/deschler/django-modeltranslation/compare/v0.19.1...v0.19.2) (2024-05-27)
+
+### [0.19.1](https://github.com/deschler/django-modeltranslation/compare/v0.19.0...v0.19.1) (2024-05-27)
+
+
+### Bug Fixes
+
+* Removed protocol from admin javascript links. ([ed8f2bc](https://github.com/deschler/django-modeltranslation/commit/ed8f2bcf747435e242ce5e0b01287b5162d59476)), closes [#740](https://github.com/deschler/django-modeltranslation/issues/740)
+
+## [0.19.0](https://github.com/deschler/django-modeltranslation/compare/v0.18.13...v0.19.0) (2024-05-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* **types:** Rename `fields` (dict with set of TranslationField) to `all_fields`, on the TranslationOptions instance.
+
+### Features
+
+* Support F and Concat expressions in annotate() ([a0aeb58](https://github.com/deschler/django-modeltranslation/commit/a0aeb58b470d7b0607bf7e3a4e9dd49e1862dcc3)), closes [#735](https://github.com/deschler/django-modeltranslation/issues/735)
+
+
+### Bug Fixes
+
+* **types:** Export public variables ([47f8083](https://github.com/deschler/django-modeltranslation/commit/47f80835764be1607ec7463b55c7de8496bc0152))
+* **types:** Fix `fields` type ([#739](https://github.com/deschler/django-modeltranslation/issues/739)) ([b97c22c](https://github.com/deschler/django-modeltranslation/commit/b97c22c197686379be5d6237cfd61a92c10aefb5))
+
+### [0.18.13](https://github.com/deschler/django-modeltranslation/compare/v0.18.13-beta1.1...v0.18.13) (2024-05-17)
+
+
+### Features
+
+* Add build_lang helper in utils ([bdee9ff](https://github.com/deschler/django-modeltranslation/commit/bdee9ff5b906f682cfc8c4a774074a8b2aacf463))
+* Add types ([a9e95e8](https://github.com/deschler/django-modeltranslation/commit/a9e95e8c78550aba70712e524fb289b87bdf1b48)), closes [#716](https://github.com/deschler/django-modeltranslation/issues/716)
+
+
+### Bug Fixes
+
+* Remove deprecated test config starting from Django 5.0 ([b016af5](https://github.com/deschler/django-modeltranslation/commit/b016af5d4a2bdb9a0dfebf1492d6997f2aa9861d))
+
 ### [0.18.13-beta1.1](https://github.com/deschler/django-modeltranslation/compare/v0.18.13-beta.0...v0.18.13-beta1.1) (2023-11-17)
 
 
